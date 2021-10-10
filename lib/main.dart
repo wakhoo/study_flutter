@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'recipe.dart';
+import 'recipe_detail.dart';
 
 void main() {
   runApp(RecipeApp());
@@ -54,13 +55,31 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView.builder(
               itemCount: Recipe.samples.length,
               itemBuilder: (BuildContext context, int index) {
-                return buildRecipeCard(Recipe.samples[index]);
+                // 7
+                return GestureDetector(
+                  // 8
+                  onTap: () {
+                    // 9
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          // 10
+                          // TODO: Replace return with return RecipeDetail()
+                          return RecipeDetail(recipe: Recipe.samples[index]);
+                        },
+                      ),
+                    );
+                  },
+                  // 11
+                  child: buildRecipeCard(Recipe.samples[index]),
+                );
                 //return Text(Recipe.samples[index].label);
               })),
     );
   }
 
-  Widget buildRecipeCard(Recipe recipe) {
+  /* Widget buildRecipeCard(Recipe recipe) {
     // 1
     return Card(
       // 2
@@ -72,6 +91,38 @@ class _MyHomePageState extends State<MyHomePage> {
           // 5
           Text(recipe.label),
         ],
+      ),
+    );
+  } */
+
+  Widget buildRecipeCard(Recipe recipe) {
+    return Card(
+      // 1
+      elevation: 2.0, //카드 간의 높이 차이??
+      // 2
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      // 3 카드의 형태
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        // 4
+        child: Column(
+          children: <Widget>[
+            Image(image: AssetImage(recipe.imageUrl)),
+            // 5
+            const SizedBox(
+              height: 14.0,
+            ),
+            // 6
+            Text(
+              recipe.label,
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Palatino',
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
